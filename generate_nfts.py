@@ -12,7 +12,7 @@ IMAGES_FOLDER = os.path.join(OUTPUT_FOLDER, "images")
 BACKGROUND_FOLDER = "backgrounds"
 
 # Replace this with your hosted URL for images (GitHub raw, IPFS, or other)
-BASE_IMAGE_URL = "https://raw.githubusercontent.com/yourusername/ROE_NFT/main/output/images/"
+BASE_IMAGE_URL = "https://github.com/camkilo/ROE_NFT"
 
 # Layer files (already have _pixian_ai)
 classes = sorted(os.listdir(os.path.join(IMAGE_FOLDER, "classes")))
