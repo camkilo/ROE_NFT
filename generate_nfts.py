@@ -11,6 +11,9 @@ METADATA_FOLDER = os.path.join(OUTPUT_FOLDER, "metadata")
 IMAGES_FOLDER = os.path.join(OUTPUT_FOLDER, "images")
 BACKGROUND_FOLDER = "backgrounds"
 
+# Replace this with your hosted URL for images (GitHub raw, IPFS, or other)
+BASE_IMAGE_URL = "https://raw.githubusercontent.com/yourusername/ROE_NFT/main/output/images/"
+
 # Layer files (already have _pixian_ai)
 classes = sorted(os.listdir(os.path.join(IMAGE_FOLDER, "classes")))
 items = sorted(os.listdir(os.path.join(IMAGE_FOLDER, "items")))
@@ -27,7 +30,7 @@ background_weights = [1]*len(backgrounds)
 os.makedirs(IMAGES_FOLDER, exist_ok=True)
 os.makedirs(METADATA_FOLDER, exist_ok=True)
 
-# Keep track of combinations to avoid exact duplicates
+# Track unique combinations
 generated_combos = set()
 
 for nft_index in range(1, NUM_NFTS + 1):
@@ -56,11 +59,11 @@ for nft_index in range(1, NUM_NFTS + 1):
     nft_filename = f"NFT_{nft_index:04d}.png"
     final_img.save(os.path.join(IMAGES_FOLDER, nft_filename))
 
-    # Create metadata JSON
+    # Metadata JSON for OpenSea
     metadata = {
         "name": f"ROE NFT #{nft_index}",
         "description": "Realm of Echoes NFT — unique in-game character with items and traits.",
-        "image": nft_filename,
+        "image": BASE_IMAGE_URL + nft_filename,
         "attributes": [
             {"trait_type": "Class", "value": cls.replace(".png", "")},
             {"trait_type": "Item", "value": item.replace(".png", "")},
@@ -72,6 +75,6 @@ for nft_index in range(1, NUM_NFTS + 1):
     with open(os.path.join(METADATA_FOLDER, f"{nft_index:04d}.json"), "w") as f:
         json.dump(metadata, f, indent=4)
 
-    print(f"Generated {nft_filename}")
+    print(f"Generated {nft_filename} + metadata")
 
-print("✅ 1,000 NFTs generated with metadata!")
+print("✅ 1,000 NFTs generated with OpenSea-ready metadata!")
