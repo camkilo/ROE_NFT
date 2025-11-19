@@ -11,18 +11,17 @@ METADATA_FOLDER = os.path.join(OUTPUT_FOLDER, "metadata")
 IMAGES_FOLDER = os.path.join(OUTPUT_FOLDER, "images")
 BACKGROUND_FOLDER = "backgrounds"
 
-# Layer files
+# Layer files (already have _pixian_ai)
 classes = sorted(os.listdir(os.path.join(IMAGE_FOLDER, "classes")))
 items = sorted(os.listdir(os.path.join(IMAGE_FOLDER, "items")))
 traits = sorted(os.listdir(os.path.join(IMAGE_FOLDER, "hidden_traits")))
 backgrounds = sorted(os.listdir(BACKGROUND_FOLDER))
 
 # Rarity weights example (adjust as desired)
-# Higher weight → more common
-class_weights = [1]*25
-item_weights = [5]*15
-trait_weights = [5]*10
-background_weights = [1]*5
+class_weights = [1]*len(classes)
+item_weights = [5]*len(items)
+trait_weights = [5]*len(traits)
+background_weights = [1]*len(backgrounds)
 
 # Ensure output folders exist
 os.makedirs(IMAGES_FOLDER, exist_ok=True)
@@ -59,5 +58,20 @@ for nft_index in range(1, NUM_NFTS + 1):
 
     # Create metadata JSON
     metadata = {
-        "name": f"ROE
+        "name": f"ROE NFT #{nft_index}",
+        "description": "Realm of Echoes NFT — unique in-game character with items and traits.",
+        "image": nft_filename,
+        "attributes": [
+            {"trait_type": "Class", "value": cls.replace(".png", "")},
+            {"trait_type": "Item", "value": item.replace(".png", "")},
+            {"trait_type": "Hidden Trait", "value": trait.replace(".png", "")},
+            {"trait_type": "Background", "value": bg.replace(".png", "")}
+        ]
+    }
 
+    with open(os.path.join(METADATA_FOLDER, f"{nft_index:04d}.json"), "w") as f:
+        json.dump(metadata, f, indent=4)
+
+    print(f"Generated {nft_filename}")
+
+print("✅ 1,000 NFTs generated with metadata!")
